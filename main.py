@@ -3,7 +3,7 @@ import shutil
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-PATH = 'C:/Users/berna/Downloads/'
+PATH = 'your/path'
 
 class MyHandler(FileSystemEventHandler):
     def on_any_event(self, event):
