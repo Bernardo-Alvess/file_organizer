@@ -16,8 +16,16 @@ def get_download_path():
     else:
         return os.path.join(os.path.expanduser('~'), 'downloads')
     
-PATH = f'{get_download_path()}\\'
-print(PATH)
+PATH = "C:/Users/berna/Documents/teste script/"
+
+def checkFile(file, path):
+    count = 0
+    while os.path.exists(os.path.join(path, file)):
+        count += 1
+        file_name, file_extension = os.path.splitext(file)
+        file = f"{file_name}_{count}{file_extension}"
+    return file
+
 def moveFiles():
     no_folder_extensions = ['.tmp', '.crdownload', '.opdownload', '.ini']
     for file in os.listdir(PATH):
@@ -25,16 +33,17 @@ def moveFiles():
         if os.path.isfile(file_path):
             extension = os.path.splitext(file)[1]
             folder_path = os.path.join(PATH, extension)
-            if not os.path.exists(folder_path) and extension not in no_folder_extensions:
-                os.makedirs(folder_path)
-                print(f'Created folder {folder_path}')
-            try:
-                shutil.move(file_path, folder_path)
-            except FileExistsError:
-                #TODO change file name
-                print('nada ainda')
-            except Exception as e:
-                print(e)
+            if extension not in no_folder_extensions:
+                if not os.path.exists(folder_path):
+                    os.makedirs(folder_path)
+                    print(f'Created folder {folder_path}')
+                try:
+                    new_file_name = checkFile(file, folder_path)
+                    new_file_path = os.path.join(folder_path, new_file_name)
+                    shutil.move(file_path, new_file_path)
+                except Exception as e:
+                    print(e)
+                
 
 moveFiles()
 
